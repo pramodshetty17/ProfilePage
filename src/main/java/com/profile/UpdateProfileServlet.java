@@ -1,42 +1,37 @@
 package com.profile;
 
-
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
 @WebServlet("/updateProfile")
 public class UpdateProfileServlet extends HttpServlet {
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-String id=request.getParameter("id");
-String name=request.getParameter("name");
-String email=request.getParameter("email");
-String phone=request.getParameter("phone");
-String age=request.getParameter("age");
+int id=Integer.parseInt(request.getParameter("id"));
+int age=Integer.parseInt(request.getParameter("age"));
+String gender=request.getParameter("gender");
 String city=request.getParameter("city");
 
 try{
 
-Connection con = DBConnection.getConnection();
+Connection con=DBConnection.getConnection();
 
-PreparedStatement ps = con.prepareStatement(
-"update profile set name=?,email=?,phone=?,age=?,city=? where id=?");
+PreparedStatement ps=con.prepareStatement(
+"update profiledatabase set age=?,gender=?,city=? where id=?");
 
-ps.setString(1,name);
-ps.setString(2,email);
-ps.setString(3,phone);
-ps.setString(4,age);
-ps.setString(5,city);
-ps.setInt(6,Integer.parseInt(id));
+ps.setInt(1,age);
+ps.setString(2,gender);
+ps.setString(3,city);
+ps.setInt(4,id);
 
 ps.executeUpdate();
 
-response.sendRedirect("viewProfiles");
+response.sendRedirect("index.jsp");
 
 }catch(Exception e){
 e.printStackTrace();

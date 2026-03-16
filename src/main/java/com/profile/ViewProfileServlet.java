@@ -57,10 +57,6 @@ out.println("<td>"+rs.getString("email")+"</td>");
 out.println("<td>"+rs.getString("phone")+"</td>");
 out.println("<td>"+rs.getString("city")+"</td>");
 
-out.println("<td>");
-out.println("<a href='editProfile.jsp?id="+rs.getInt("id")+"'>Edit</a> | ");
-out.println("<a href='deleteProfile?id="+rs.getInt("id")+"' onclick='return confirm(\"Are you sure?\")'>Delete</a>");
-out.println("</td>");
 
 out.println("</tr>");
 

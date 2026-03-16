@@ -1,6 +1,5 @@
 package com.profile;
 
-
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -13,20 +12,19 @@ public class DeleteProfileServlet extends HttpServlet {
 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-String id=request.getParameter("id");
+String ids=request.getParameter("ids");
 
 try{
 
 Connection con=DBConnection.getConnection();
 
-PreparedStatement ps=con.prepareStatement(
-"delete from profiledatabase where id=?");
+Statement st=con.createStatement();
 
-ps.setInt(1,Integer.parseInt(id));
+String sql="delete from profiledatabase where id in("+ids+")";
 
-ps.executeUpdate();
+st.executeUpdate(sql);
 
-response.sendRedirect("viewProfiles");
+response.sendRedirect("index.jsp");
 
 }catch(Exception e){
 e.printStackTrace();
