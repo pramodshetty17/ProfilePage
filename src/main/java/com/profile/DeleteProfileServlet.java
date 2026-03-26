@@ -1,9 +1,7 @@
 package com.profile;
 
-import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-
 import java.io.IOException;
 import java.sql.*;
 
@@ -15,20 +13,18 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 String ids=request.getParameter("ids");
 
 try{
-
 Connection con=DBConnection.getConnection();
 
-Statement st=con.createStatement();
+CallableStatement cs=con.prepareCall("{call delete_profile(?)}");
 
-String sql="delete from profiledatabase where id in("+ids+")";
+cs.setString(1,ids);
 
-st.executeUpdate(sql);
+cs.execute();
 
 response.sendRedirect("index.jsp");
 
 }catch(Exception e){
 e.printStackTrace();
 }
-
 }
 }

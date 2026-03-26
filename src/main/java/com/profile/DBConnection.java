@@ -1,26 +1,43 @@
 package com.profile;
 
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
+import java.io.InputStream;
 
 public class DBConnection {
 
-    public static Connection getConnection() {
+    private static Connection con;
 
-        Connection con=null;
+    public static Connection getConnection(){
 
-        try {
+        try{
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            if(con == null){
 
-            con=DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/profiledb",
-            "root",
-            "Pramod17shetty");
+                Properties prop = new Properties();
 
-        } catch(Exception e) {
+                InputStream is = DBConnection.class
+                        .getClassLoader()
+                        .getResourceAsStream("db.properties");
+
+               
+                if(is == null){
+                    throw new RuntimeException("db.properties FILE NOT FOUND");
+                }
+
+                prop.load(is);
+
+                String url = prop.getProperty("db.url");
+                String username = prop.getProperty("db.username");
+                String password = prop.getProperty("db.password");
+
+                Class.forName("com.mysql.cj.jdbc.Driver");
+
+                con = DriverManager.getConnection(url, username, password);
+            }
+
+        }catch(Exception e){
             e.printStackTrace();
         }
 

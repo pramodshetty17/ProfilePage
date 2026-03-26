@@ -7,7 +7,19 @@
 
 <script>
 function closePage(){
-window.location="index.jsp";
+    window.location="index.jsp";
+}
+
+function validateEmail(){
+    let email = document.getElementById("email").value;
+
+    let pattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+    if(!pattern.test(email)){
+        alert("Enter valid Gmail (example@gmail.com)");
+        return false;
+    }
+    return true;
 }
 </script>
 
@@ -23,24 +35,28 @@ window.location="index.jsp";
 
 <h2>Add Profile</h2>
 
-<form action="addProfile" method="post">
+
+<form action="addProfile" method="post" onsubmit="return validateEmail()">
 
 <label>Name</label>
 <input type="text" name="name" required>
 
 <label>Email</label>
-<input type="email" name="email" required>
+<input type="email" id="email" name="email"
+pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+title="Enter valid Gmail (example@gmail.com)"
+required>
 
 <label>Phone</label>
-<input type="text" name="phone" required>
+<input type="text" name="phone" required maxlength="10">
 
 <label>Age</label>
-<input type="number" name="age" required>
+<input type="number" name="age" required min="1" max="100">
 
 <label>Gender</label>
 
 <div class="radio-group">
-<input type="radio" name="gender" value="Male"> Male
+<input type="radio" name="gender" value="Male" required> Male
 <input type="radio" name="gender" value="Female"> Female
 </div>
 

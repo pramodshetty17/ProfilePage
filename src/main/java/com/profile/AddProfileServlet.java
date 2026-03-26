@@ -30,8 +30,7 @@ try{
 
 Connection con=DBConnection.getConnection();
 
-PreparedStatement ps=con.prepareStatement(
-"insert into profiledatabase(name,email,phone,age,gender,skills,city) values(?,?,?,?,?,?,?)");
+CallableStatement ps=con.prepareCall("{call add_profile(?,?,?,?,?,?,?)}");
 
 ps.setString(1,name);
 ps.setString(2,email);
